@@ -1,4 +1,4 @@
-﻿# PowerShell Script for Automated Environment Setup on Windows using Chocolatey
+# PowerShell Script for Automated Environment Setup on Windows using Chocolatey
 $ErrorActionPreference = "Stop"
 
 # Vérification des privilèges Administrateur
@@ -37,6 +37,15 @@ Write-Host "📦 Installation des outils requis..." -ForegroundColor Cyan
 # Python 3.12 (ou version supérieure disponible)
 Write-Host "🐍 Installation de Python 3..." -ForegroundColor Yellow
 choco install python3 --version 3.12.2 -y --skip-automated-dependency-resolution
+
+# Recharger le PATH pour inclure Python nouvellement installé
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
+# Installation de Jupyter via pip
+Write-Host "🐍 Installation de Jupyter..." -ForegroundColor Yellow
+python -m pip install --upgrade pip
+python -m pip install jupyter
+
 
 # Quarto CLI
 Write-Host "✍️ Installation de Quarto CLI..." -ForegroundColor Yellow

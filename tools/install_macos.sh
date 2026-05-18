@@ -26,6 +26,11 @@ echo "📦 Installation des outils système..."
 echo "🐍 Installation de Python 3.12..."
 brew install python@3.12
 
+# Installation de Jupyter via pip
+echo "🐍 Installation de Jupyter..."
+python3 -m pip install --upgrade pip || true
+python3 -m pip install jupyter || true
+
 # Git
 echo "🐍 Installation de Git..."
 brew install git

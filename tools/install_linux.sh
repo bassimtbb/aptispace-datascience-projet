@@ -9,6 +9,12 @@ echo "🔄 Mise à jour du gestionnaire de paquets..."
 sudo apt-get update -y
 sudo apt-get install -y python3 python3-pip python3-venv wget curl tar xz-utils git
 
+# Installation de Jupyter via pip
+echo "🐍 Installation de Jupyter..."
+python3 -m pip install --upgrade pip || true
+python3 -m pip install --break-system-packages jupyter || python3 -m pip install jupyter || true
+
+
 # 2. Installation de Go-Task
 echo "⚙️ Installation de Go-Task..."
 sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
