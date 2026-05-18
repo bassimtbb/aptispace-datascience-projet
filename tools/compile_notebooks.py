@@ -4,7 +4,8 @@ import subprocess
 import sys
 
 # Répertoires de travail
-base_dir = '/home/aptitek/Documents/Aptispace/datascience/lab/projet'
+script_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(script_dir)
 notebooks_dir = os.path.join(base_dir, 'notebooks')
 src_dir = os.path.join(base_dir, 'src')
 logs_dir = os.path.join(base_dir, 'logs')
