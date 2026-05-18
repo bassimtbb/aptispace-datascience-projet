@@ -16,6 +16,7 @@ tasks:
     cmds:
       - task: compile
       - quarto render report/rapport.qmd
+      - cp report/README.md ./README.md
 
   html:
     desc: Compile les notebooks puis génère le rapport au format HTML uniquement
@@ -34,6 +35,7 @@ tasks:
     cmds:
       - task: compile
       - quarto render report/rapport.qmd --to gfm
+      - cp report/README.md ./README.md
 
   preview:
     desc: Compile les notebooks puis démarre le serveur de prévisualisation dynamique Quarto

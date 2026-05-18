@@ -21,7 +21,7 @@ format:
     number-sections: true
     colorlinks: true
   gfm:
-    output-file: "../README.md"
+    output-file: "README.md"
     toc: true
     toc-depth: 2
     variant: +raw_html+backtick_code_blocks
