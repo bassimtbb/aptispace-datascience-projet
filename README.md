@@ -338,7 +338,7 @@ pour valoriser vos conclusions.
 impacts stratégiques (par exemple, gains financiers, réduction de coûts,
 amélioration de la sécurité, etc.).
 
-<div id="plotly-794cbfd1-abbe-4dca-8142-cdb484636ce7"
+<div id="plotly-22832f08-72ec-4fd6-8f94-e28319c1edfb"
 style="width:100%; height:400px; background: white; border-radius: 8px;">
 
 </div>
@@ -346,7 +346,7 @@ style="width:100%; height:400px; background: white; border-radius: 8px;">
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
     if (typeof Plotly !== 'undefined') {
-      Plotly.newPlot('plotly-794cbfd1-abbe-4dca-8142-cdb484636ce7', [{"type": "scatter", "x": [1, 2, 3], "y": [10, 15, 13], "mode": "lines+markers", "name": "Donn\u00e9es de Test"}], {"title": "Mon Graphique Plotly de Test"}, {"responsive": true});
+      Plotly.newPlot('plotly-22832f08-72ec-4fd6-8f94-e28319c1edfb', [{"type": "scatter", "x": [1, 2, 3], "y": [10, 15, 13], "mode": "lines+markers", "name": "Donn\u00e9es de Test"}], {"title": "Mon Graphique Plotly de Test"}, {"responsive": true});
     } else {
       console.error("Plotly library is not loaded.");
     }
@@ -359,7 +359,7 @@ style="width:100%; height:400px; background: white; border-radius: 8px;">
 exemple en utilisant Plotly ou des éléments OJS dans le document final)
 pour permettre aux décideurs d’interagir dynamiquement avec vos données.
 
-<div id="plotly-a8e40c8d-3bf7-4261-b7b8-b2b8d41d7112"
+<div id="plotly-b710acc6-d2c3-49c1-8448-5c00fad65e93"
 style="width:100%; height:400px; background: white; border-radius: 8px;">
 
 </div>
@@ -367,7 +367,7 @@ style="width:100%; height:400px; background: white; border-radius: 8px;">
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
     if (typeof Plotly !== 'undefined') {
-      Plotly.newPlot('plotly-a8e40c8d-3bf7-4261-b7b8-b2b8d41d7112', [{"type": "scatter", "x": [1, 2, 3], "y": [10, 15, 13], "mode": "lines+markers", "name": "Donn\u00e9es de Test"}], {"title": "Mon Graphique Plotly de Test"}, {"responsive": true});
+      Plotly.newPlot('plotly-b710acc6-d2c3-49c1-8448-5c00fad65e93', [{"type": "scatter", "x": [1, 2, 3], "y": [10, 15, 13], "mode": "lines+markers", "name": "Donn\u00e9es de Test"}], {"title": "Mon Graphique Plotly de Test"}, {"responsive": true});
     } else {
       console.error("Plotly library is not loaded.");
     }
