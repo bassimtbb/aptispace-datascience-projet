@@ -65,17 +65,31 @@ for nb_file in notebook_files:
                 qmd_lines.append("\n")
             qmd_lines.append("```\n\n")
 
-            # Recherche des sorties Plotly dans la cellule
-            plotly_html = None
-            for output in cell.get('outputs', []):
-                data = output.get('data', {})
-                if 'application/vnd.plotly.v1+json' in data:
-                    plotly_data = data['application/vnd.plotly.v1+json']
-                    fig_data = json.dumps(plotly_data.get('data', []))
-                    fig_layout = json.dumps(plotly_data.get('layout', {}))
-                    fig_config = json.dumps(plotly_data.get('config', {}))
-                    div_id = f"plotly-{uuid.uuid4()}"
-                    plotly_html = f"""<div id="{div_id}" style="width:100%; height:400px; background: white; border-radius: 8px;"></div>
+            # Extraction et intégration des sorties de la cellule exécutée
+            # Les cellules %pip install sont ignorées (sorties verbeuses inutiles)
+            is_pip_cell = source_str.strip().startswith('%pip')
+            if not is_pip_cell:
+                for output in cell.get('outputs', []):
+                    output_type = output.get('output_type', '')
+                    data = output.get('data', {})
+
+                    # 1. Flux stdout (print statements)
+                    if output_type == 'stream' and output.get('name') == 'stdout':
+                        text = "".join(output.get('text', []))
+                        if text.strip():
+                            qmd_lines.append("```\n")
+                            qmd_lines.append(text if text.endswith("\n") else text + "\n")
+                            qmd_lines.append("```\n\n")
+
+                    elif output_type in ('display_data', 'execute_result'):
+                        # 2. Plotly interactif (JSON natif)
+                        if 'application/vnd.plotly.v1+json' in data:
+                            plotly_data = data['application/vnd.plotly.v1+json']
+                            fig_data = json.dumps(plotly_data.get('data', []))
+                            fig_layout = json.dumps(plotly_data.get('layout', {}))
+                            fig_config = json.dumps(plotly_data.get('config', {}))
+                            div_id = f"plotly-{uuid.uuid4()}"
+                            plotly_html = f"""<div id="{div_id}" style="width:100%; height:400px; background: white; border-radius: 8px;"></div>
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {{
     if (typeof Plotly !== 'undefined') {{
@@ -86,23 +100,43 @@ for nb_file in notebook_files:
   }});
 </script>
 """
-                    break
-                elif 'text/html' in data:
-                    html_lines = data['text/html']
-                    if isinstance(html_lines, list):
-                        html_content = "".join(html_lines)
-                    else:
-                        html_content = html_lines
-                    if 'plotly' in html_content.lower() or 'plotly-graph-div' in html_content:
-                        plotly_html = html_content
-                        break
-            
-            if plotly_html:
-                qmd_lines.append("::: {.content-visible unless-format=\"pdf\"}\n")
-                qmd_lines.append(plotly_html)
-                if not plotly_html.endswith("\n"):
-                    qmd_lines.append("\n")
-                qmd_lines.append(":::\n\n")
+                            qmd_lines.append("::: {.content-visible unless-format=\"pdf\"}\n")
+                            qmd_lines.append(plotly_html)
+                            qmd_lines.append(":::\n\n")
+
+                        # 3. Image PNG (matplotlib, seaborn)
+                        elif 'image/png' in data:
+                            b64 = data['image/png']
+                            if isinstance(b64, list):
+                                b64 = "".join(b64)
+                            qmd_lines.append(f"![](data:image/png;base64,{b64.strip()})\n\n")
+
+                        # 4. HTML (DataFrames, tableaux) — Plotly HTML inline
+                        elif 'text/html' in data:
+                            html = data['text/html']
+                            if isinstance(html, list):
+                                html = "".join(html)
+                            html_stripped = html.strip()
+                            if not html_stripped:
+                                continue
+                            if 'plotly' in html.lower() or 'plotly-graph-div' in html:
+                                qmd_lines.append("::: {.content-visible unless-format=\"pdf\"}\n")
+                                qmd_lines.append(html if html.endswith("\n") else html + "\n")
+                                qmd_lines.append(":::\n\n")
+                            else:
+                                qmd_lines.append("```{=html}\n")
+                                qmd_lines.append(html if html.endswith("\n") else html + "\n")
+                                qmd_lines.append("```\n\n")
+
+                        # 5. Texte brut (fallback pour les scalaires, numpy arrays, etc.)
+                        elif 'text/plain' in data:
+                            text = data['text/plain']
+                            if isinstance(text, list):
+                                text = "".join(text)
+                            if text.strip():
+                                qmd_lines.append("```\n")
+                                qmd_lines.append(text if text.endswith("\n") else text + "\n")
+                                qmd_lines.append("```\n\n")
             
             # Alimentation des lignes de script Python (.py) - en commentant les commandes magiques IPython (% ou !) pour éviter les SyntaxError
             py_cell_lines = []
