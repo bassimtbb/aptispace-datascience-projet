@@ -62,7 +62,7 @@ jobs:
           
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Auto: Update compiled outputs (README, INSTALL, scripts, includes and logs) [skip ci]"
-            git push
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
           else
             echo "Aucune modification à commiter."
           fi
