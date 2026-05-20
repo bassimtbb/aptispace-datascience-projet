@@ -2,9 +2,8 @@
 title: "Mon Projet Data Science"
 subtitle: "Projet Fil Rouge Data Science - Sujet Libre"
 author:
-  - "Étudiant(e) 1 : [Insérer Prénom Nom]"
-  - "Étudiant(e) 2 : [Insérer Prénom Nom]"
-  - "Étudiant(e) 3 : [Insérer Prénom Nom]"
+  - "Étudiant(e) 1 : Bassim TABBEB"
+  - "Étudiant(e) 2 : Mathis PENAGOS"
 date: today
 format:
   html:
@@ -35,22 +34,25 @@ link-citations: true
 *À rédiger par les étudiants : Présentez ici le contexte global de votre projet, la problématique métier que vous cherchez à résoudre, les questions scientifiques soulevées et les opportunités d'aide à la décision sur la base de vos données.*
 
 ## Contexte du Projet
-*À rédiger par les étudiants — Pistes de réflexion :*
 
-- *Quels sont les objectifs globaux et le domaine d'étude de votre projet ?*
-- *En quoi ce sujet de recherche est-il pertinent et stratégique ?*
-- *Pourquoi l'analyse quantitative de ce jeu de données est-elle indispensable pour répondre à votre problématique ?*
+Ce projet s'inscrit dans le domaine de l'industrie automobile et de l'analyse de l'efficacité énergétique des véhicules. Nous étudions le jeu de données Automobile Dataset, qui recense 398 véhicules produits entre 1970 et 1982, provenant de trois régions géographiques : les États-Unis, l'Europe et le Japon.
 
-[Rédiger votre paragraphe de contexte ici]
+Ce sujet est stratégiquement pertinent car la consommation de carburant (mesurée en miles par gallon, MPG) est un indicateur clé de performance environnementale et économique. Comprendre les facteurs qui influencent cette consommation permet aux constructeurs automobiles de mieux orienter leurs décisions de conception et aux consommateurs de faire des choix éclairés.
+
+L'analyse quantitative de ce jeu de données est indispensable pour identifier les relations entre les caractéristiques techniques des véhicules (puissance, poids, cylindrée, origine) et leur efficacité énergétique, et ainsi répondre à notre problématique centrale.
 
 ## Objectif Analytique
-*À rédiger par les étudiants — Pistes de réflexion :*
 
-- *Quelles sont les variables cibles principales et la tâche globale de modélisation (classification, régression, clustering, etc.) ?*
-- *Comment le couplage de données multi-sources et l'intégration de différents types de données (tabulaires, images, signaux, etc.) enrichissent-ils l'analyse ?*
-- *Quels sont les livrables analytiques attendus pour répondre à votre problématique et guider les prises de décisions ?*
+La variable cible principale de ce projet est le MPG (Miles Per Gallon), qui mesure l'efficacité énergétique d'un véhicule. Nous abordons ce problème sous deux angles complémentaires : une tâche de régression pour prédire la valeur exacte du MPG, et une tâche de classification pour catégoriser les véhicules en trois niveaux de consommation (faible, moyenne, élevée).
 
-[Rédiger votre paragraphe d'objectifs ici]
+L'enrichissement multi-sources est réalisé via l'intégration d'une table de correspondance géographique (origine → région → code continent), permettant d'analyser les différences culturelles et industrielles entre les constructeurs américains, européens et japonais.
+
+Les livrables analytiques attendus sont :
+
+- Un dataset nettoyé et enrichi avec des variables dérivées (`power_to_weight`, `mpg_category`)
+- Des visualisations multidimensionnelles identifiant les 3 à 5 insights majeurs
+- Une matrice de corrélation révélant les relations entre variables techniques
+- Un modèle prédictif évalué avec des métriques rigoureuses (RMSE, R², F1-Score)
 
 ---
 

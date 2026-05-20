@@ -1,0 +1,1432 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "a004d404",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "title: \"Mon Projet Data Science\"\n",
+    "subtitle: \"Projet Fil Rouge Data Science - Sujet Libre\"\n",
+    "author:\n",
+    "  - \"Étudiant(e) 1 : [Insérer Prénom Nom]\"\n",
+    "  - \"Étudiant(e) 2 : [Insérer Prénom Nom]\"\n",
+    "  - \"Étudiant(e) 3 : [Insérer Prénom Nom]\"\n",
+    "date: today\n",
+    "format:\n",
+    "  html:\n",
+    "    theme: cosmo\n",
+    "    toc: true\n",
+    "    toc-depth: 3\n",
+    "    number-sections: true\n",
+    "    code-fold: show\n",
+    "    code-tools: true\n",
+    "    highlight-style: github\n",
+    "  typst:\n",
+    "    toc: true\n",
+    "    number-sections: true\n",
+    "  gfm:\n",
+    "    output-file: \"rapport.md\"\n",
+    "    toc: true\n",
+    "    toc-depth: 2\n",
+    "execute:\n",
+    "  eval: false\n",
+    "  echo: false\n",
+    "  warning: false\n",
+    "bibliography: references.bib\n",
+    "link-citations: true\n",
+    "---\n",
+    "\n",
+    "# Introduction et Contexte Métier {#sec-intro}\n",
+    "\n",
+    "*À rédiger par les étudiants : Présentez ici le contexte global de votre projet, la problématique métier que vous cherchez à résoudre, les questions scientifiques soulevées et les opportunités d'aide à la décision sur la base de vos données.*\n",
+    "\n",
+    "## Contexte du Projet\n",
+    "*À rédiger par les étudiants — Pistes de réflexion :*\n",
+    "\n",
+    "- *Quels sont les objectifs globaux et le domaine d'étude de votre projet ?*\n",
+    "- *En quoi ce sujet de recherche est-il pertinent et stratégique ?*\n",
+    "- *Pourquoi l'analyse quantitative de ce jeu de données est-elle indispensable pour répondre à votre problématique ?*\n",
+    "\n",
+    "[Rédiger votre paragraphe de contexte ici]\n",
+    "\n",
+    "## Objectif Analytique\n",
+    "*À rédiger par les étudiants — Pistes de réflexion :*\n",
+    "\n",
+    "- *Quelles sont les variables cibles principales et la tâche globale de modélisation (classification, régression, clustering, etc.) ?*\n",
+    "- *Comment le couplage de données multi-sources et l'intégration de différents types de données (tabulaires, images, signaux, etc.) enrichissent-ils l'analyse ?*\n",
+    "- *Quels sont les livrables analytiques attendus pour répondre à votre problématique et guider les prises de décisions ?*\n",
+    "\n",
+    "[Rédiger votre paragraphe d'objectifs ici]\n",
+    "\n",
+    "---\n",
+    "\n",
+    "# Acquisition et Préparation des Données (Data Wrangling) {#sec-wrangling}\n",
+    "\n",
+    "Le succès de tout projet de Data Science repose sur la qualité de la préparation des données [@pandas2020]. Cette section documente l'audit de qualité et les étapes de nettoyage appliquées à vos jeux de données bruts.\n",
+    "\n",
+    "## Chapitre 1 : Acquisition Multi-Sources"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "8b508b4e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dd582f83",
+   "metadata": {},
+   "source": [
+    "# 📥 Étape 1 : Acquisition des Données & Multi-Sources (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au premier chapitre du pipeline de Data Science. L'objectif est d'identifier, d'importer et de consolider vos jeux de données bruts issus de différentes sources (fichiers CSV locaux, requêtes API, bases de données, etc.).\n",
+    "\n",
+    "### 1. Initialisation de l'environnement"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "0e0c61d7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "# Ajout du dossier parent au chemin de recherche des modules\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "\n",
+    "print(\"Libraries importées avec succès ! Prêt pour l'étape d'Acquisition des Données.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d8cae968",
+   "metadata": {},
+   "source": [
+    "### 2. Chargement de la source de données principale\n",
+    "\n",
+    "Chargement du jeu de données **Automobile** depuis le fichier CSV local `data/raw/Automobile.csv`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "1ad07a2f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chemin vers le jeu de données principal\n",
+    "main_data_path = '../data/raw/Automobile.csv'\n",
+    "\n",
+    "# Chargement du dataset avec Pandas\n",
+    "df_main = pd.read_csv(main_data_path)\n",
+    "\n",
+    "# Affichage de la taille et des premières lignes\n",
+    "print(f\"Dimensions du dataset principal : {df_main.shape}\")\n",
+    "df_main.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "11684193",
+   "metadata": {},
+   "source": [
+    "### 3. Intégration de données secondaires (Multi-Sources)\n",
+    "\n",
+    "Création d'un DataFrame complémentaire contenant des informations géographiques sur l'origine des véhicules (région et code continent)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "1f8c77d4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Création d'un DataFrame secondaire avec les informations géographiques par origine\n",
+    "origin_info = pd.DataFrame({\n",
+    "    'origin': ['usa', 'europe', 'japan'],\n",
+    "    'region': ['Amérique du Nord', 'Europe', 'Asie'],\n",
+    "    'continent_code': ['NA', 'EU', 'AS']\n",
+    "})\n",
+    "\n",
+    "print(f\"Dimensions des données secondaires : {origin_info.shape}\")\n",
+    "print(\"Données secondaires prêtes :\")\n",
+    "origin_info.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9a063c99",
+   "metadata": {},
+   "source": [
+    "### 4. Fusion des sources (Optionnel)\n",
+    "\n",
+    "Jointure du dataset principal avec les données géographiques secondaires sur la colonne `origin`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "27e1ca6e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Fusion du dataset principal avec les informations géographiques\n",
+    "df_merged = pd.merge(df_main, origin_info, on='origin', how='left')\n",
+    "\n",
+    "print(f\"Dimensions après fusion : {df_merged.shape}\")\n",
+    "df_merged.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d0470158",
+   "metadata": {},
+   "source": [
+    "### 5. Consignation des données d'entrée brutes\n",
+    "\n",
+    "Sauvegardez l'état brut de vos données d'entrée pour la suite du pipeline."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "a105e454",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Sauvegarde du dataset fusionné\n",
+    "output_path = '../data/raw/Automobile_merged.csv'\n",
+    "df_merged.to_csv(output_path, index=False)\n",
+    "\n",
+    "print(f\"Dataset fusionné sauvegardé : {output_path}\")\n",
+    "print(f\"Dimensions finales : {df_merged.shape}\")\n",
+    "print(\"Acquisition terminée avec succès !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c7714561",
+   "metadata": {},
+   "source": [
+    "## Chapitre 2 : Nettoyage et Préparation (Wrangling)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "ba289c53",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7cc91db7",
+   "metadata": {},
+   "source": [
+    "# 🧹 Étape 2 : Préparation & Nettoyage de Données (Data Wrangling) (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au deuxième chapitre du projet. L'objectif est d'effectuer un audit de qualité des données brutes du dataset **Automobile**, puis de mettre en œuvre un nettoyage rigoureux : traitement des valeurs manquantes, encodage des variables catégorielles et détection des valeurs aberrantes.\n",
+    "\n",
+    "### 1. Initialisation et imports"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "fa9f74fb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "from sklearn.preprocessing import LabelEncoder\n",
+    "\n",
+    "# Ajout du dossier parent au chemin de recherche des modules\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "\n",
+    "print(\"Librairies prêtes pour le Wrangling !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0b9e7f70",
+   "metadata": {},
+   "source": [
+    "### 2. Chargement du dataset brut et Audit Initial\n",
+    "\n",
+    "Chargement du dataset **Automobile** et inspection de la qualité des données : dimensions, types, valeurs manquantes, doublons et statistiques descriptives."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "ce6ed052",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "raw_data_path = '../data/raw/Automobile.csv'\n",
+    "df_raw = pd.read_csv(raw_data_path)\n",
+    "\n",
+    "print(\"=== Dimensions ===\")\n",
+    "print(f\"Shape : {df_raw.shape}\")\n",
+    "\n",
+    "print(\"\\n=== Types des colonnes ===\")\n",
+    "print(df_raw.dtypes)\n",
+    "\n",
+    "print(\"\\n=== Valeurs manquantes par colonne ===\")\n",
+    "print(df_raw.isnull().sum())\n",
+    "\n",
+    "print(\"\\n=== Nombre de doublons ===\")\n",
+    "print(df_raw.duplicated().sum())\n",
+    "\n",
+    "print(\"\\n=== Statistiques descriptives ===\")\n",
+    "df_raw.describe()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a7655246",
+   "metadata": {},
+   "source": [
+    "### 3. Uniformisation des Formats de Dates\n",
+    "\n",
+    "Le dataset Automobile ne contient pas de colonne de dates. Cette section est consacrée au traitement de la seule valeur manquante identifiée lors de l'audit : la colonne **horsepower** (6 valeurs NaN). On impute ces valeurs par la médiane de la distribution."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "0e63bdea",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Affichage des 6 lignes où horsepower est NaN\n",
+    "print(\"=== Lignes avec horsepower manquant ===\")\n",
+    "print(df_raw[df_raw['horsepower'].isnull()])\n",
+    "\n",
+    "# Calcul et affichage de la médiane\n",
+    "hp_median = df_raw['horsepower'].median()\n",
+    "print(f\"\\nMédiane de horsepower : {hp_median}\")\n",
+    "\n",
+    "# Imputation par la médiane\n",
+    "df_raw['horsepower'] = df_raw['horsepower'].fillna(hp_median)\n",
+    "\n",
+    "# Vérification : aucune valeur manquante restante\n",
+    "print(\"\\n=== Valeurs manquantes après imputation ===\")\n",
+    "print(df_raw.isnull().sum())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b44915c5",
+   "metadata": {},
+   "source": [
+    "### 4. Identification et Filtrage des Valeurs Aberrantes (Outliers)\n",
+    "\n",
+    "Suppression de la colonne `name` (305 valeurs uniques, purement nominale), encodage de la variable catégorielle `origin` avec `LabelEncoder`, puis détection des outliers par la méthode IQR sur les 6 colonnes numériques."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "7b0f52b7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Suppression de la colonne 'name' (identifiant nominal sans valeur prédictive)\n",
+    "df_clean = df_raw.drop(columns=['name'])\n",
+    "print(f\"Shape après suppression de 'name' : {df_clean.shape}\")\n",
+    "\n",
+    "# Encodage de la variable catégorielle 'origin' avec LabelEncoder\n",
+    "le = LabelEncoder()\n",
+    "df_clean['origin'] = le.fit_transform(df_clean['origin'])\n",
+    "\n",
+    "print(\"\\n=== Mapping d'encodage de 'origin' ===\")\n",
+    "for label, code in zip(le.classes_, le.transform(le.classes_)):\n",
+    "    print(f\"  {label} → {code}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "3cf4228c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Détection des outliers par méthode IQR sur les colonnes numériques\n",
+    "numeric_cols = ['mpg', 'cylinders', 'displacement', 'horsepower', 'weight', 'acceleration']\n",
+    "\n",
+    "outlier_counts = {}\n",
+    "for col in numeric_cols:\n",
+    "    Q1 = df_clean[col].quantile(0.25)\n",
+    "    Q3 = df_clean[col].quantile(0.75)\n",
+    "    IQR = Q3 - Q1\n",
+    "    lower = Q1 - 1.5 * IQR\n",
+    "    upper = Q3 + 1.5 * IQR\n",
+    "    n_outliers = ((df_clean[col] < lower) | (df_clean[col] > upper)).sum()\n",
+    "    outlier_counts[col] = n_outliers\n",
+    "\n",
+    "print(\"=== Nombre d'outliers détectés (méthode IQR) ===\")\n",
+    "for col, count in outlier_counts.items():\n",
+    "    print(f\"  {col} : {count} outlier(s)\")\n",
+    "\n",
+    "# Visualisation : boxplots 2x3\n",
+    "fig, axes = plt.subplots(2, 3, figsize=(14, 8))\n",
+    "fig.suptitle(\"Détection des Outliers par Méthode IQR — Dataset Automobile\", fontsize=14, fontweight='bold')\n",
+    "\n",
+    "for ax, col in zip(axes.flatten(), numeric_cols):\n",
+    "    ax.boxplot(df_clean[col].dropna(), vert=True, patch_artist=True,\n",
+    "               boxprops=dict(facecolor='#93c5fd', color='#1e40af'),\n",
+    "               medianprops=dict(color='#dc2626', linewidth=2),\n",
+    "               flierprops=dict(marker='o', markerfacecolor='#f87171', markersize=5))\n",
+    "    ax.set_title(f\"{col}\\n({outlier_counts[col]} outlier(s))\", fontsize=11)\n",
+    "    ax.set_xlabel(col)\n",
+    "\n",
+    "plt.tight_layout()\n",
+    "plt.show()\n",
+    "\n",
+    "print(\"\\n=== Statistiques descriptives après encodage ===\")\n",
+    "df_clean.describe()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "58876503",
+   "metadata": {},
+   "source": [
+    "### 5. Imputation des valeurs manquantes\n",
+    "\n",
+    "Validation finale de l'absence de valeurs manquantes et confirmation des dimensions du dataset nettoyé."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "0a98697b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(\"=== Valeurs manquantes restantes ===\")\n",
+    "print(df_clean.isnull().sum())\n",
+    "\n",
+    "print(f\"\\nDimensions finales du dataset nettoyé : {df_clean.shape}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f7709bd3",
+   "metadata": {},
+   "source": [
+    "### 6. Sauvegarde des données propres\n",
+    "\n",
+    "Enregistrement du dataset nettoyé dans le répertoire `data/processed/`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "9231437f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "processed_path = '../data/processed/cleaned_data_sample.csv'\n",
+    "os.makedirs(os.path.dirname(processed_path), exist_ok=True)\n",
+    "df_clean.to_csv(processed_path, index=False)\n",
+    "\n",
+    "print(f\"Données propres sauvegardées dans : {processed_path}\")\n",
+    "print(f\"Shape finale : {df_clean.shape}\")\n",
+    "print(\"Wrangling terminé avec succès !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "13b6fe57",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "# Visualisation Multidimensionnelle (Insights) {#sec-viz}\n",
+    "\n",
+    "Nous présentons ici les résultats visuels clés permettant de dégager des insights exploitables pour les décideurs, en s'appuyant sur notre module `src/utils_viz.py`.\n",
+    "\n",
+    "## Chapitre 3 : Travaux Pratiques d'Exploration Visuelle"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "c48b4e41",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a6a9ff3f",
+   "metadata": {},
+   "source": [
+    "# 📊 Étape 4 : Visualisation Multidimensionnelle (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au quatrième chapitre du cours. L'objectif est de concevoir des représentations visuelles pour identifier des tendances et insights clés du dataset **Automobile** : évolution de la consommation par année, corrélations entre variables, et relations bivariées entre puissance et efficacité.\n",
+    "\n",
+    "### 1. Préparation de l'environnement"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "01e67366",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "%matplotlib inline\n",
+    "\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "\n",
+    "print(\"Librairies de visualisation prêtes !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "224c6fa6",
+   "metadata": {},
+   "source": [
+    "### 2. Chargement du dataset enrichi"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "58e32d06",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv('../data/processed/cleaned_data_sample.csv')\n",
+    "\n",
+    "# Recréation des features issues de l'EDA\n",
+    "df['power_to_weight'] = df['horsepower'] / df['weight']\n",
+    "df['mpg_category'] = pd.qcut(\n",
+    "    df['mpg'],\n",
+    "    q=3,\n",
+    "    labels=['faible', 'moyenne', 'élevée']\n",
+    ")\n",
+    "\n",
+    "print(f\"Shape : {df.shape}\")\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0679c7d9",
+   "metadata": {},
+   "source": [
+    "### 3. Tracés et analyses graphiques\n",
+    "\n",
+    "#### A. Évolution des tendances dans le temps\n",
+    "\n",
+    "Évolution de la consommation moyenne (MPG) par année de modèle — permet d'observer le progrès des motorisations au fil du temps."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "dd49362e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mpg_per_year = df.groupby('model_year')['mpg'].mean()\n",
+    "\n",
+    "fig, ax = plt.subplots(figsize=(10, 5))\n",
+    "ax.plot(mpg_per_year.index, mpg_per_year.values,\n",
+    "        marker='o', linewidth=2, color='#1d4ed8', markersize=6)\n",
+    "ax.set_title(\"Évolution de la consommation moyenne (MPG) par année de modèle\",\n",
+    "             fontsize=13, fontweight='bold')\n",
+    "ax.set_xlabel(\"Année du modèle (model_year)\", fontsize=11)\n",
+    "ax.set_ylabel(\"MPG moyen\", fontsize=11)\n",
+    "ax.grid(True, linestyle='--', alpha=0.6)\n",
+    "plt.tight_layout()\n",
+    "\n",
+    "output_dir = '../data/processed'\n",
+    "os.makedirs(output_dir, exist_ok=True)\n",
+    "fig.savefig(os.path.join(output_dir, 'mpg_evolution.png'), dpi=120, bbox_inches='tight')\n",
+    "print(\"Graphique sauvegardé : ../data/processed/mpg_evolution.png\")\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4da88fd1",
+   "metadata": {},
+   "source": [
+    "#### B. Carte de chaleur des corrélations\n",
+    "\n",
+    "Heatmap de la matrice de corrélation de Pearson sur l'ensemble des variables numériques, incluant la variable dérivée `power_to_weight`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "7710b787",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "corr_cols = ['mpg', 'cylinders', 'displacement', 'horsepower',\n",
+    "             'weight', 'acceleration', 'model_year', 'origin', 'power_to_weight']\n",
+    "corr_matrix = df[corr_cols].corr(method='pearson')\n",
+    "\n",
+    "fig, ax = plt.subplots(figsize=(10, 8))\n",
+    "sns.heatmap(\n",
+    "    corr_matrix,\n",
+    "    annot=True,\n",
+    "    fmt='.2f',\n",
+    "    cmap='coolwarm',\n",
+    "    center=0,\n",
+    "    linewidths=0.5,\n",
+    "    ax=ax\n",
+    ")\n",
+    "ax.set_title(\"Carte de chaleur des corrélations de Pearson — Dataset Automobile\",\n",
+    "             fontsize=13, fontweight='bold')\n",
+    "plt.tight_layout()\n",
+    "\n",
+    "fig.savefig(os.path.join(output_dir, 'correlation_heatmap.png'), dpi=120, bbox_inches='tight')\n",
+    "print(\"Graphique sauvegardé : ../data/processed/correlation_heatmap.png\")\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ed8a279a",
+   "metadata": {},
+   "source": [
+    "#### C. Nuage de points bivarié\n",
+    "\n",
+    "Relation entre la puissance moteur (`horsepower`) et la consommation (`mpg`), colorée par origine géographique du véhicule (0=Europe, 1=Japon, 2=USA)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "41ae74ce",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "origin_config = {\n",
+    "    0: ('Europe', 'blue'),\n",
+    "    1: ('Japan',  'red'),\n",
+    "    2: ('USA',    'green')\n",
+    "}\n",
+    "\n",
+    "fig, ax = plt.subplots(figsize=(9, 6))\n",
+    "for origin_code, (label, color) in origin_config.items():\n",
+    "    subset = df[df['origin'] == origin_code]\n",
+    "    ax.scatter(\n",
+    "        subset['horsepower'],\n",
+    "        subset['mpg'],\n",
+    "        label=label,\n",
+    "        color=color,\n",
+    "        alpha=0.6,\n",
+    "        edgecolors='white',\n",
+    "        linewidths=0.4,\n",
+    "        s=55\n",
+    "    )\n",
+    "\n",
+    "ax.set_title(\"Nuage de points : Puissance vs Consommation (MPG) par Origine\",\n",
+    "             fontsize=13, fontweight='bold')\n",
+    "ax.set_xlabel(\"Puissance (Horsepower)\", fontsize=11)\n",
+    "ax.set_ylabel(\"Consommation (MPG)\", fontsize=11)\n",
+    "ax.legend(title='Origine', fontsize=10, title_fontsize=10)\n",
+    "ax.grid(True, linestyle='--', alpha=0.5)\n",
+    "plt.tight_layout()\n",
+    "\n",
+    "fig.savefig(os.path.join(output_dir, 'scatter_hp_mpg.png'), dpi=120, bbox_inches='tight')\n",
+    "print(\"Graphique sauvegardé : ../data/processed/scatter_hp_mpg.png\")\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ea9754a7",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "# Analyse Exploratoire des Données (EDA) {#sec-eda}\n",
+    "\n",
+    "Dans cette section, nous analysons les relations statistiques fondamentales qui régissent votre domaine d'étude au sein du jeu de données.\n",
+    "\n",
+    "## Chapitre 4 : Travaux Pratiques d'Exploration (EDA)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "53d3583c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "db263456",
+   "metadata": {},
+   "source": [
+    "# 🔎 Étape 3 : Analyse Exploratoire des Données (EDA) (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au troisième chapitre du cours. L'objectif est d'explorer et de résumer les propriétés statistiques fondamentales du dataset **Automobile** et de réaliser du **Feature Engineering** pour enrichir les modèles.\n",
+    "\n",
+    "### 1. Préparation de l'environnement"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "90aee8c6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "%matplotlib inline\n",
+    "\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "\n",
+    "print(\"Librairies importées pour l'EDA !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b546aed6",
+   "metadata": {},
+   "source": [
+    "### 2. Chargement des données nettoyées"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "b2343bf9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv('../data/processed/cleaned_data_sample.csv')\n",
+    "\n",
+    "print(f\"Shape : {df.shape}\")\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a3b2606e",
+   "metadata": {},
+   "source": [
+    "### 3. Statistiques Descriptives\n",
+    "\n",
+    "Résumés statistiques globaux et agrégations par groupe d'origine pour les variables clés du dataset."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "e5467f57",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(\"=== Statistiques descriptives globales ===\")\n",
+    "df.describe()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "c2d4f036",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(\"=== Moyennes par origine (0=europe, 1=japan, 2=usa) ===\")\n",
+    "df.groupby('origin')[['mpg', 'horsepower', 'weight', 'acceleration']].mean().round(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4807205e",
+   "metadata": {},
+   "source": [
+    "### 4. Ingénierie de variables (Feature Engineering)\n",
+    "\n",
+    "Création de deux nouvelles variables dérivées :\n",
+    "- **power_to_weight** : rapport puissance/poids, indicateur d'efficacité mécanique\n",
+    "- **mpg_category** : discrétisation de la consommation en 3 tertiles (faible / moyenne / élevée)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "50b51c29",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_feat = df.copy()\n",
+    "\n",
+    "# Rapport puissance / poids\n",
+    "df_feat['power_to_weight'] = df_feat['horsepower'] / df_feat['weight']\n",
+    "\n",
+    "# Catégorisation de la consommation en 3 tertiles\n",
+    "df_feat['mpg_category'] = pd.qcut(\n",
+    "    df_feat['mpg'],\n",
+    "    q=3,\n",
+    "    labels=['faible', 'moyenne', 'élevée']\n",
+    ")\n",
+    "\n",
+    "print(f\"Shape après feature engineering : {df_feat.shape}\")\n",
+    "print(f\"Nouvelles colonnes : power_to_weight, mpg_category\")\n",
+    "df_feat[['mpg', 'horsepower', 'weight', 'power_to_weight', 'mpg_category']].head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "db1be130",
+   "metadata": {},
+   "source": [
+    "### 5. Analyse des Corrélations\n",
+    "\n",
+    "Matrice de corrélation de Pearson sur toutes les colonnes numériques (y compris `power_to_weight`), puis pairplot des variables clés coloré par origine."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "dd86b152",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Sélection des colonnes numériques incluant power_to_weight\n",
+    "numeric_cols = ['mpg', 'cylinders', 'displacement', 'horsepower',\n",
+    "                'weight', 'acceleration', 'model_year', 'origin', 'power_to_weight']\n",
+    "\n",
+    "corr_matrix = df_feat[numeric_cols].corr(method='pearson')\n",
+    "\n",
+    "print(\"=== Matrice de corrélation de Pearson ===\")\n",
+    "print(corr_matrix.round(3))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "02d0c415",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Pairplot des variables clés coloré par origine\n",
+    "pairplot_cols = ['mpg', 'horsepower', 'weight', 'acceleration', 'origin']\n",
+    "\n",
+    "pair_grid = sns.pairplot(\n",
+    "    df_feat[pairplot_cols],\n",
+    "    hue='origin',\n",
+    "    palette='tab10',\n",
+    "    diag_kind='kde',\n",
+    "    plot_kws={'alpha': 0.6, 's': 30}\n",
+    ")\n",
+    "pair_grid.figure.suptitle(\n",
+    "    \"Pairplot — Automobile Dataset (hue = origin : 0=europe, 1=japan, 2=usa)\",\n",
+    "    y=1.02, fontsize=12\n",
+    ")\n",
+    "\n",
+    "# Sauvegarde du pairplot\n",
+    "output_dir = '../data/processed'\n",
+    "os.makedirs(output_dir, exist_ok=True)\n",
+    "pairplot_path = os.path.join(output_dir, 'pairplot.png')\n",
+    "pair_grid.savefig(pairplot_path, dpi=120, bbox_inches='tight')\n",
+    "\n",
+    "print(f\"Pairplot sauvegardé : {pairplot_path}\")\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f410d7c7",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "# Modélisation et Apprentissage {#sec-modelling}\n",
+    "\n",
+    "Le pipeline complet intègre à la fois la branche analytique tabulaire (Machine Learning) et la branche d'analyse visuelle ou de signaux complexes (Deep Learning CNN) :\n",
+    "\n",
+    "```mermaid\n",
+    "graph TD\n",
+    "    A[Données Brutes Multi-Sources CSV/API] -->|Formatage & Alignement| B(data_clean.clean_dates)\n",
+    "    C[Données Externes Complémentaires] -->|Imputation & Interpolation| D(data_clean.impute_missing_values)\n",
+    "    B & D -->|Gestion Outliers| E[Jeu de données Propre & Fusionné]\n",
+    "    E -->|Extraction Temporelle/Caractéristiques| F[Feature Engineering]\n",
+    "    F -->|Splits Temporels ou Stratifiés| G[Modèle Machine Learning Tabulaire]\n",
+    "    H[Flux Multimédias Réels Images/Signaux] -->|Prétraitement d'images/signaux| I[Réseau Convolutif CNN TensorFlow]\n",
+    "    G -->|Prédictions de la Problématique Métier| J[Livrables & Aide à la Décision]\n",
+    "    I -->|Détection de Motifs Complexes| J\n",
+    "    \n",
+    "    style E fill:#e0f2fe,stroke:#0284c7,stroke-width:2px\n",
+    "    style J fill:#f0fdf4,stroke:#16a34a,stroke-width:2px\n",
+    "    style G fill:#fef3c7,stroke:#d97706,stroke-width:2px\n",
+    "    style I fill:#fef3c7,stroke:#d97706,stroke-width:2px\n",
+    "```\n",
+    "\n",
+    "## Chapitre 5 : Travaux Pratiques de Modélisation (ML & DL)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "217f2e38",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e478e080",
+   "metadata": {},
+   "source": [
+    "# 🧠 Étape 5 : Modélisation (Machine Learning & Deep Learning) (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au cinquième chapitre du cours. L'objectif est d'implémenter d'une part un modèle de Machine Learning tabulaire (ex: RandomForest) et d'autre part un réseau de neurones convolutif (CNN) sous TensorFlow pour traiter des images ou signaux complexes.\n",
+    "\n",
+    "### 1. Préparation de l'environnement"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "b809e974",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "from sklearn.ensemble import RandomForestRegressor\n",
+    "import tensorflow as tf\n",
+    "from tensorflow.keras import layers, models\n",
+    "\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "from src import data_clean as dc\n",
+    "\n",
+    "print(\"Librairies de modélisation importées avec succès !\")\n",
+    "print(\"Version TensorFlow :\", tf.__version__)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e76f8dcd",
+   "metadata": {},
+   "source": [
+    "### 2. Modélisation Tabulaire (Machine Learning)\n",
+    "\n",
+    "**À COMPLÉTER PAR L'ÉTUDIANT :**\n",
+    "Entraînez un modèle d'apprentissage supervisé (ex: forêt aléatoire) sur les caractéristiques extraites de votre jeu de données."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "d3e0ea8c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chargement des données propres et ingénierie des caractéristiques\n",
+    "df = pd.read_csv('../data/processed/cleaned_data_sample.csv')\n",
+    "df['timestamp'] = pd.to_datetime(df['timestamp'])\n",
+    "df_feat = dc.feature_engineering(df, 'timestamp')\n",
+    "\n",
+    "features = ['hour', 'dayofweek']\n",
+    "target = 'value'\n",
+    "\n",
+    "# Split chronologique simple pour l'entraînement\n",
+    "X_train = df_feat[features].iloc[:-4]\n",
+    "y_train = df_feat[target].iloc[:-4]\n",
+    "\n",
+    "# TODO: Instancier et entraîner RandomForestRegressor sur (X_train, y_train)\n",
+    "rf_model = RandomForestRegressor(n_estimators=10, random_state=42)\n",
+    "rf_model.fit(X_train, y_train)\n",
+    "print(\"Modèle de forêt aléatoire entraîné !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5150f6b5",
+   "metadata": {},
+   "source": [
+    "### 3. Modélisation Vision / Deep Learning (CNN & TensorFlow)\n",
+    "\n",
+    "**À COMPLÉTER PAR L'ÉTUDIANT :**\n",
+    "Pour des motifs complexes (images/signaux), mettez en place un réseau convolutif (Conv2D, Pooling, Dense) pour classifier ou enrichir vos prédictions."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "10ed242a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Génération fictive d'un jeu d'images simples (64x64 pixels) de cercles (Classe 0) vs rectangles (Classe 1)\n",
+    "def generate_dummy_images(num_samples=100):\n",
+    "    images = np.zeros((num_samples, 64, 64, 3), dtype=np.float32)\n",
+    "    labels = np.zeros(num_samples, dtype=np.int32)\n",
+    "    for i in range(num_samples):\n",
+    "        label = np.random.choice([0, 1])\n",
+    "        labels[i] = label\n",
+    "        images[i, :, :, :] = 0.2 + np.random.normal(0, 0.01, (64, 64, 3))\n",
+    "        if label == 1:\n",
+    "            images[i, 10:30, 10:30, 0] = 0.8\n",
+    "        else:\n",
+    "            images[i, 20:40, 20:40, 1] = 0.8\n",
+    "    return images, labels\n",
+    "\n",
+    "X_images, y_labels = generate_dummy_images(100)\n",
+    "split = int(0.8 * len(X_images))\n",
+    "X_img_train = X_images[:split]\n",
+    "y_img_train = y_labels[:split]\n",
+    "\n",
+    "print(f\"Dataset d'images brutes généré. Dimensions Train : {X_img_train.shape}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "5ed478fc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# TODO: Définir l'architecture séquentielle du CNN avec layers.Conv2D et layers.MaxPooling2D\n",
+    "cnn_model = models.Sequential([\n",
+    "    layers.Conv2D(16, (3, 3), activation='relu', input_shape=(64, 64, 3)),\n",
+    "    layers.MaxPooling2D((2, 2)),\n",
+    "    layers.Flatten(),\n",
+    "    layers.Dense(16, activation='relu'),\n",
+    "    layers.Dense(1, activation='sigmoid')\n",
+    "])\n",
+    "\n",
+    "cnn_model.summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "5167a4bf",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# TODO: Compiler et entraîner le CNN avec l'optimiseur adam et une binary_crossentropy\n",
+    "cnn_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])\n",
+    "cnn_model.fit(X_img_train, y_img_train, epochs=2, batch_size=32, verbose=1)\n",
+    "print(\"CNN entraîné avec succès !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3efb4307",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "# Évaluation Métrique et Validation {#sec-evaluation}\n",
+    "\n",
+    "## Chapitre 6 : Travaux Pratiques d'Évaluation & Robustesse"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "e1454f07",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dad59336",
+   "metadata": {},
+   "source": [
+    "# 🧪 Étape 6 : Évaluation Métrique & Robustesse (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au sixième chapitre du cours. L'objectif est de mettre en place un protocole d'évaluation rigoureux (splits d'évaluation adaptés) et de calculer les métriques clés de performance pour valider scientifiquement la qualité de vos modèles.\n",
+    "\n",
+    "### 1. Préparation de l'environnement"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "a9ccd6fc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "\n",
+    "from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score\n",
+    "\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "from src import data_clean as dc\n",
+    "\n",
+    "print(\"Librairies prêtes pour l'évaluation des modèles !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ac9b4d33",
+   "metadata": {},
+   "source": [
+    "### 2. Évaluation du modèle Tabulaire\n",
+    "\n",
+    "**À COMPLÉTER PAR L'ÉTUDIANT :**\n",
+    "Calculez et interprétez les métriques d'erreur sur vos prédictions (MAE, RMSE, R²)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "eb0fe96c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Chargement des données et ré-entraînement rapide pour évaluation\n",
+    "df = pd.read_csv('../data/processed/cleaned_data_sample.csv')\n",
+    "df['timestamp'] = pd.to_datetime(df['timestamp'])\n",
+    "df_feat = dc.feature_engineering(df, 'timestamp')\n",
+    "\n",
+    "features = ['hour', 'dayofweek']\n",
+    "target = 'value'\n",
+    "\n",
+    "X_train = df_feat[features].iloc[:-4]\n",
+    "y_train = df_feat[target].iloc[:-4]\n",
+    "X_test = df_feat[features].iloc[-4:]\n",
+    "y_test = df_feat[target].iloc[-4:]\n",
+    "\n",
+    "# Entraînement\n",
+    "from sklearn.ensemble import RandomForestRegressor\n",
+    "model = RandomForestRegressor(n_estimators=10, random_state=42)\n",
+    "model.fit(X_train, y_train)\n",
+    "y_pred = model.predict(X_test)\n",
+    "\n",
+    "# TODO: Calculez MAE, RMSE et R² entre y_test et y_pred\n",
+    "mae = mean_absolute_error(y_test, y_pred)\n",
+    "rmse = np.sqrt(mean_squared_error(y_test, y_pred))\n",
+    "r2 = r2_score(y_test, y_pred)\n",
+    "\n",
+    "print(f\"Test MAE  : {mae:.3f}\")\n",
+    "print(f\"Test RMSE : {rmse:.3f}\")\n",
+    "print(f\"Test R²   : {r2:.3f}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "85db1834",
+   "metadata": {},
+   "source": [
+    "### 3. Protocole de Validation Croisée (Out-of-Fold / Chronologique)\n",
+    "\n",
+    "**À COMPLÉTER PAR L'ÉTUDIANT :**\n",
+    "Décrivez et codez (ou documentez) une stratégie de validation croisée adaptée au comportement temporel de vos données pour valider la robustesse de votre modèle sans fuite d'information."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "bd971ba3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# TODO: Proposer un script de K-Fold temporel (TimeSeriesSplit) ou de validation croisée classique\n",
+    "print(\"Protocole de validation documenté avec succès !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4d0cf11d",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "\n",
+    "# Data Storytelling et Communication {#sec-storytelling}\n",
+    "\n",
+    "## Chapitre 7 : Travaux Pratiques de Storytelling"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "47f9af32",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Installation automatique des dépendances requises dans le noyau Jupyter actuel\n",
+    "%pip install -r ../requirements.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e035c61d",
+   "metadata": {},
+   "source": [
+    "# 📢 Étape 7 : Data Storytelling & Communication (Squelette Étudiant)\n",
+    "\n",
+    "Cette étape correspond au septième et dernier chapitre de data science. L'objectif est de synthétiser vos résultats pour des profils métiers ou décideurs et de proposer des visualisations interactives ou dynamiques pour valoriser vos conclusions.\n",
+    "\n",
+    "### 1. Préparation de l'environnement"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "172e1162",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "import pandas as pd\n",
+    "\n",
+    "sys.path.append(os.path.abspath('..'))\n",
+    "\n",
+    "print(\"Librairies prêtes pour la phase de Data Storytelling !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "97a77984",
+   "metadata": {},
+   "source": [
+    "### 2. Synthèse métier et Storytelling\n",
+    "\n",
+    "**À COMPLÉTER PAR L'ÉTUDIANT :**\n",
+    "Traduisez vos métriques techniques en impacts stratégiques (par exemple, gains financiers, réduction de coûts, amélioration de la sécurité, etc.)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "e96160a1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# TODO: Écrire des exemples de recommandations stratégiques\n",
+    "print(\"Storytelling métier initialisé avec succès.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "787199dd",
+   "metadata": {},
+   "source": [
+    "::: {.content-visible unless-format=\"pdf\"}\n",
+    "<div id=\"plotly-6c0046e4-2ada-49da-928f-1392ddfc502f\" style=\"width:100%; height:400px; background: white; border-radius: 8px;\"></div>\n",
+    "<script type=\"text/javascript\">\n",
+    "  document.addEventListener(\"DOMContentLoaded\", function() {\n",
+    "    if (typeof Plotly !== 'undefined') {\n",
+    "      Plotly.newPlot('plotly-6c0046e4-2ada-49da-928f-1392ddfc502f', [{\"type\": \"scatter\", \"x\": [1, 2, 3], \"y\": [10, 15, 13], \"mode\": \"lines+markers\", \"name\": \"Donn\\u00e9es de Test\"}], {\"title\": \"Mon Graphique Plotly de Test\"}, {\"responsive\": true});\n",
+    "    } else {\n",
+    "      console.error(\"Plotly library is not loaded.\");\n",
+    "    }\n",
+    "  });\n",
+    "</script>\n",
+    ":::\n",
+    "\n",
+    "### 3. Visualisation Interactive (Plotly)\n",
+    "\n",
+    "**À COMPLÉTER PAR L'ÉTUDIANT :**\n",
+    "Générez un graphique interactif (par exemple en utilisant Plotly ou des éléments OJS dans le document final) pour permettre aux décideurs d'interagir dynamiquement avec vos données."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "74172cd0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# TODO: Créer un graphique interactif simple\n",
+    "print(\"Module de communication dynamique prêt !\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9d9ed7d8",
+   "metadata": {},
+   "source": [
+    "::: {.content-visible unless-format=\"pdf\"}\n",
+    "<div id=\"plotly-c7a6f10f-b52b-436b-b773-9d67f957afe9\" style=\"width:100%; height:400px; background: white; border-radius: 8px;\"></div>\n",
+    "<script type=\"text/javascript\">\n",
+    "  document.addEventListener(\"DOMContentLoaded\", function() {\n",
+    "    if (typeof Plotly !== 'undefined') {\n",
+    "      Plotly.newPlot('plotly-c7a6f10f-b52b-436b-b773-9d67f957afe9', [{\"type\": \"scatter\", \"x\": [1, 2, 3], \"y\": [10, 15, 13], \"mode\": \"lines+markers\", \"name\": \"Donn\\u00e9es de Test\"}], {\"title\": \"Mon Graphique Plotly de Test\"}, {\"responsive\": true});\n",
+    "    } else {\n",
+    "      console.error(\"Plotly library is not loaded.\");\n",
+    "    }\n",
+    "  });\n",
+    "</script>\n",
+    ":::\n",
+    "\n",
+    "\n",
+    "\n",
+    "## Présentation des Résultats (Livrables Interactifs)\n",
+    "\n",
+    "::: {.panel-tabset}\n",
+    "\n",
+    "### 📺 Diaporama de Soutenance (RevealJS)\n",
+    "Ci-dessous est intégré le squelette de votre diaporama de soutenance RevealJS. Utilisez-le pour présenter votre démarche aux décideurs de façon professionnelle.\n",
+    "\n",
+    "<iframe src=\"slides.html\" width=\"100%\" height=\"500px\" style=\"border: 1px solid #e2e8f0; border-radius: 8px; background: white;\"></iframe>\n",
+    "\n",
+    "### 📊 Exemple de Dashboard Dynamique (OJS / Plotly)\n",
+    "::: {.content-visible unless-format=\"pdf\"}\n",
+    "Voici un exemple minimal de code montrant comment intégrer un graphique dynamique contrôlé par un composant d'interface utilisateur en Observable JS (OJS).\n",
+    "\n",
+    "```{ojs}\n",
+    "//| echo: true\n",
+    "// Boutons de sélection interactifs OJS\n",
+    "viewof selectedCategory = Inputs.select([\"Toutes\", \"A\", \"B\", \"C\"], {value: \"Toutes\", label: \"Filtrer par Catégorie :\"})\n",
+    "```\n",
+    "\n",
+    "```{ojs}\n",
+    "//| echo: false\n",
+    "// Données simulées réactives\n",
+    "data = [\n",
+    "  {timestamp: \"2026-05-18T00:00:00Z\", value: 10.5, category: \"A\"},\n",
+    "  {timestamp: \"2026-05-18T02:00:00Z\", value: 12.1, category: \"A\"},\n",
+    "  {timestamp: \"2026-05-18T04:00:00Z\", value: 14.7, category: \"A\"},\n",
+    "  {timestamp: \"2026-05-18T05:00:00Z\", value: 15.2, category: \"A\"},\n",
+    "  {timestamp: \"2026-05-18T06:00:00Z\", value: 16.0, category: \"B\"},\n",
+    "  {timestamp: \"2026-05-18T07:00:00Z\", value: 18.3, category: \"B\"},\n",
+    "  {timestamp: \"2026-05-18T09:00:00Z\", value: 21.5, category: \"B\"},\n",
+    "  {timestamp: \"2026-05-18T10:00:00Z\", value: 22.0, category: \"B\"},\n",
+    "  {timestamp: \"2026-05-18T12:00:00Z\", value: 25.4, category: \"C\"},\n",
+    "  {timestamp: \"2026-05-18T13:00:00Z\", value: 26.1, category: \"C\"},\n",
+    "  {timestamp: \"2026-05-18T15:00:00Z\", value: 28.9, category: \"C\"},\n",
+    "  {timestamp: \"2026-05-18T16:00:00Z\", value: 30.2, category: \"C\"}\n",
+    "]\n",
+    "\n",
+    "// Filtrage réactif de la donnée\n",
+    "filteredData = selectedCategory === \"Toutes\" \n",
+    "  ? data \n",
+    "  : data.filter(d => d.category === selectedCategory)\n",
+    "\n",
+    "// Tracé interactif avec la librairie Plotly\n",
+    "Plotly.newPlot('dynamic-chart', [{\n",
+    "  x: filteredData.map(d => d.timestamp),\n",
+    "  y: filteredData.map(d => d.value),\n",
+    "  type: 'scatter',\n",
+    "  mode: 'lines+markers',\n",
+    "  marker: {color: '#1A73E8', size: 8},\n",
+    "  line: {shape: 'spline', color: '#1A73E8', width: 3}\n",
+    "}], {\n",
+    "  title: 'Évolution Dynamique des Valeurs (Filtrée)',\n",
+    "  margin: {t: 50, b: 50, l: 50, r: 50},\n",
+    "  paper_bgcolor: 'rgba(0,0,0,0)',\n",
+    "  plot_bgcolor: 'rgba(0,0,0,0)',\n",
+    "  xaxis: {gridcolor: '#E5E7EB'},\n",
+    "  yaxis: {gridcolor: '#E5E7EB'}\n",
+    "})\n",
+    "```\n",
+    "\n",
+    "::: {#dynamic-chart style=\"width:100%; height:400px; background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);\"}\n",
+    ":::\n",
+    ":::\n",
+    "\n",
+    ":::\n",
+    "\n",
+    "---\n",
+    "\n",
+    "# Utilisation de l'Intelligence Artificielle {#sec-ai}\n",
+    "\n",
+    "Dans une démarche de transparence scientifique et académique, cette section détaille la manière dont les outils d'Intelligence Artificielle (IA) générative ont été intégrés tout au long de la réalisation de ce projet.\n",
+    "\n",
+    "## Cartographie de l'utilisation de l'IA\n",
+    "\n",
+    "| Outil d'IA | Cas d'usage (Pourquoi ?) | Méthode d'utilisation (Comment ?) | Rôle et Validation Humaine |\n",
+    "| :--- | :--- | :--- | :--- |\n",
+    "| **[Outil d'IA]** | *[À compléter par les étudiants]* | *[À compléter par les étudiants]* | *[À compléter par les étudiants]* |\n",
+    "\n",
+    "## Principes de Rigueur et Responsabilité\n",
+    "\n",
+    "1. **Responsabilité intellectuelle** : L'équipe assume l'entière responsabilité des analyses, des choix de modèles et des conclusions présentées dans ce rapport.\n",
+    "2. **Lutte contre les hallucinations** : Chaque suggestion technique a fait l'objet d'une validation empirique.\n",
+    "3. **Protection des données** : Aucun jeu de données confidentiel ou sensible n'a été soumis à des modèles tiers en ligne.\n",
+    "\n",
+    "---\n",
+    "\n",
+    "# Bibliographie {.unnumbered}\n",
+    "\n",
+    "::: {#refs}\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3",
+   "path": "/usr/local/share/jupyter/kernels/python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
