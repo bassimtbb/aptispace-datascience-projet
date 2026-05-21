@@ -19,3 +19,31 @@ services:
       - HOME=/tmp # Empêche Quarto d'écrire son cache dans le dossier /root
     # Démarre la prévisualisation quarto avec rechargement automatique en direct
     command: quarto preview report/rapport.qmd --host 0.0.0.0 --port 4815 --no-browser
+
+  frontend:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: aptispace-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dashboard/frontend:/app
+      - /app/node_modules
+      - ./models:/app/models
+    environment:
+      - NODE_ENV=development
+
+  backend:
+    build:
+      context: ./dashboard/backend
+      dockerfile: Dockerfile
+    container_name: aptispace-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./dashboard/backend:/app
+      - ./models:/app/models
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
