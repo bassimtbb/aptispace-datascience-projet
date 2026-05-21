@@ -35,6 +35,14 @@ export default function Sidebar({ filters, setFilters }) {
         >
           🤖 Prédicteur IA
         </NavLink>
+        <NavLink
+          to="/data"
+          className={({ isActive }) =>
+            `${NAV_BASE} ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
+          }
+        >
+          🗂 Données brutes
+        </NavLink>
       </nav>
 
       {isDashboard && filters && setFilters && (

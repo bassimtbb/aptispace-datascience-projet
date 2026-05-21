@@ -89,3 +89,42 @@ Depuis la racine du projet, lancez :
   ```bash
   task clean
   ```
+
+---
+
+## 🚀 Lancer le Dashboard Interactif
+
+Le dashboard complet (React + FastAPI + Quarto) se lance en une seule commande via Docker Compose :
+
+```bash
+docker-compose up --build
+```
+
+| Service | URL | Description |
+| :--- | :--- | :--- |
+| 🌐 **React Dashboard** | [localhost:3000](http://localhost:3000) | Tableau de bord interactif avec filtres, KPIs et graphiques |
+| ⚡ **FastAPI Backend** | [localhost:8000](http://localhost:8000) | API de prédiction ML (Random Forest, 91% R²) |
+| 📄 **Quarto Report** | [localhost:4815](http://localhost:4815) | Rapport analytique interactif avec rechargement automatique |
+
+### Pages du dashboard
+
+- **`/`** — Vue d'ensemble : 4 KPIs dynamiques + 4 graphiques Recharts (évolution MPG, scatter HP/MPG, MPG par origine, distribution cylindres)
+- **`/predict`** — Prédicteur IA : 7 sliders paramétrables → prédiction MPG en temps réel + top 3 variables influentes
+- **`/data`** — Table de données : 398 véhicules, triable par colonne, recherche instantanée
+
+### Captures d'écran
+
+```
+Dashboard /          → KPIs + 4 graphiques filtrés par origine/cylindres/époque
+Prédicteur /predict  → Sliders + résultat MPG + badge catégorie + barres d'importance
+Données /data        → Table paginée avec recherche et tri par colonne
+```
+
+---
+
+## 👥 Équipe
+
+| Nom | Rôle |
+| :--- | :--- |
+| **Bassim TABBEB** | Data Science & Développement |
+| **Mathis PENAGOS** | Data Science & Développement |

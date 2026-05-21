@@ -200,7 +200,7 @@ Dans une démarche de transparence scientifique et académique, cette section d�
 
 | Outil d'IA | Cas d'usage (Pourquoi ?) | Méthode d'utilisation (Comment ?) | Rôle et Validation Humaine |
 | :--- | :--- | :--- | :--- |
-| **[Outil d'IA]** | *[À compléter par les étudiants]* | *[À compléter par les étudiants]* | *[À compléter par les étudiants]* |
+| **Claude (Anthropic)** | Génération de code (FastAPI, React, notebooks), conception de l'architecture du dashboard (structure des sprints, choix techniques), aide au débogage et à la résolution d'erreurs | Prompt engineering itératif : description précise du contexte et des contraintes à chaque échange, vérification systématique des sorties avant intégration | Tous les outputs ont été relus, testés et validés manuellement par l'équipe avant tout commit ; les choix d'architecture et les conclusions analytiques restent sous la responsabilité des auteurs |
 
 ## Principes de Rigueur et Responsabilité
 

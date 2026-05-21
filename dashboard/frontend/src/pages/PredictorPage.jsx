@@ -88,7 +88,7 @@ export default function PredictorPage() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-gray-50 font-sans">
+    <div className="flex h-full w-full bg-gray-50 font-sans">
       <Sidebar />
 
       <main className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
