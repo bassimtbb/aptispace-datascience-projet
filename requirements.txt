@@ -9,6 +9,7 @@ scikit-learn>=1.2.0
 matplotlib>=3.7.0
 seaborn>=0.12.0
 plotnine>=0.12.0
+plotly>=5.15.0
 
 # Outils de développement
 ipykernel
@@ -17,3 +18,4 @@ quarto
 
 # Pour importer les datasets
 kagglehub
+

@@ -90,7 +90,7 @@ Dans cette section, nous analysons les relations statistiques fondamentales qui 
 
 Le pipeline complet intègre à la fois la branche analytique tabulaire (Machine Learning) et la branche d'analyse visuelle ou de signaux complexes (Deep Learning CNN) :
 
-```mermaid
+```{mermaid}
 graph TD
     A[Données Brutes Multi-Sources CSV/API] -->|Formatage & Alignement| B(data_clean.clean_dates)
     C[Données Externes Complémentaires] -->|Imputation & Interpolation| D(data_clean.impute_missing_values)
