@@ -154,7 +154,7 @@ export default function PredictorPage() {
                   </svg>
                   Calcul en cours…
                 </>
-              ) : '⚡ Prédire le MPG'}
+              ) : 'Prédire le MPG'}
             </button>
           </div>
 
@@ -171,7 +171,6 @@ export default function PredictorPage() {
 
             {!result && !error && !loading && (
               <div className="flex-1 flex flex-col items-center justify-center text-gray-300 gap-2 py-10">
-                <span className="text-5xl">🚗</span>
                 <p className="text-sm">La prédiction apparaîtra ici</p>
               </div>
             )}

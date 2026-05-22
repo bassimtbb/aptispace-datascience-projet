@@ -13,8 +13,7 @@ export default function Sidebar({ filters, setFilters }) {
   return (
     <aside className="w-56 shrink-0 bg-white border-r border-gray-100 p-5 flex flex-col gap-5 shadow-sm">
       <div>
-        <h2 className="text-base font-bold text-gray-800">AptiSpace</h2>
-        <p className="text-xs text-gray-400 mt-0.5">Dashboard & IA</p>
+        <h2 className="text-base font-bold text-gray-800">Dashboard</h2>
       </div>
 
       <nav className="flex flex-col gap-1">
@@ -25,7 +24,7 @@ export default function Sidebar({ filters, setFilters }) {
             `${NAV_BASE} ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
           }
         >
-          📊 Tableau de bord
+          Tableau de bord
         </NavLink>
         <NavLink
           to="/predict"
@@ -33,16 +32,16 @@ export default function Sidebar({ filters, setFilters }) {
             `${NAV_BASE} ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
           }
         >
-          🤖 Prédicteur IA
+         Prédicteur MPG
         </NavLink>
-        <NavLink
+      {/*  <NavLink
           to="/data"
           className={({ isActive }) =>
             `${NAV_BASE} ${isActive ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`
           }
         >
-          🗂 Données brutes
-        </NavLink>
+          Données brutes
+        </NavLink>  */}
       </nav>
 
       {isDashboard && filters && setFilters && (
