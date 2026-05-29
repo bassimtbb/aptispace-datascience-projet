@@ -82,5 +82,5 @@ def explain(car: CarFeatures):
     )
     return [
         {"feature": name, "importance": round(float(imp), 4)}
-        for name, imp in ranked[:3]
+        for name, imp in ranked
     ]

@@ -27,7 +27,11 @@ export function useCarData() {
     })
 
     const cleaned = rows
-      .filter(r => r.mpg != null && r.horsepower != null && r.weight != null && r.weight !== 0)
+      .filter(r =>
+        r.mpg != null && typeof r.mpg === 'number' &&
+        r.horsepower != null && typeof r.horsepower === 'number' &&
+        r.weight != null && typeof r.weight === 'number' && r.weight !== 0
+      )
       .map(r => ({
         ...r,
         power_to_weight: r.horsepower / r.weight,

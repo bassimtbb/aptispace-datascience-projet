@@ -1,100 +1,55 @@
-# 📊 Mon Projet Data Science
+# Projet Data Science — Prédiction de la Consommation Automobile
 
-[![CI Compilation Pipeline](https://github.com/aptitek/aptispace-datascience-projet/actions/workflows/ci.yml/badge.svg)](https://github.com/aptitek/aptispace-datascience-projet/actions/workflows/ci.yml)
-[GitHub Release](../../releases/latest)
-[Quarto](https://quarto.org)
-[Typst](https://typst.app)
-[Python](https://python.org)
+[![CI](https://github.com/aptitek/aptispace-datascience-projet/actions/workflows/ci.yml/badge.svg)](https://github.com/aptitek/aptispace-datascience-projet/actions/workflows/ci.yml)
 
-> **Bienvenue dans le portail d'accueil de notre Projet Data Science.**
-> Ce dépôt contient l'intégralité du pipeline analytique (de l'acquisition multi-sources des données jusqu'à l'évaluation et la communication des résultats).
->
-> Pour préserver la propreté de l'historique et simplifier la collaboration, **toutes les compilations de rapports sont déportées sur notre intégration continue (CI)**. Les livrables finaux sont publiés automatiquement à chaque mise à jour.
+Analyse complète de l'efficacité énergétique de 398 véhicules (dataset Auto MPG), du traitement des données brutes jusqu'au déploiement d'un prédicteur ML interactif. Le pipeline couvre l'acquisition, le wrangling, la visualisation, l'EDA, la modélisation (Random Forest, R² = 0.91) et la communication des résultats via un rapport Quarto et un dashboard React.
 
 ---
 
-## 📥 Livrables du Projet (Rapports & Supports)
+## Livrables
 
-Les rapports compilés dans tous les formats, ainsi que le code source exécutable et ses journaux, sont mis à jour en temps réel à chaque push et disponibles au téléchargement sur la **[dernière version du Release GitHub](../../releases/latest)**.
+Les rapports compilés sont publiés automatiquement à chaque push via GitHub Actions.
 
-| Format | Description | Lien de Téléchargement |
+| Format | Description | Lien |
 | :--- | :--- | :--- |
-| **📄 Rapport PDF** | Rapport complet mis en page de haute qualité via **Typst** | [**Télécharger le PDF**](../../releases/download/latest/rapport.pdf) |
-| **🌐 Rapport Interactif** | Rapport HTML complet intégrant le tableau de bord dynamique **Observable JS (OJS)** | [**Télécharger l'HTML**](../../releases/download/latest/rapport.html) |
-| **📝 Rapport Markdown** | Version de lecture rapide optimisée pour l'affichage GitHub | [**Consulter le Markdown**](../../releases/download/latest/README.md) |
-| **🧠 Scripts Python** | Archive compressée des scripts extraits de tous les notebooks | [**Télécharger les Sources (.zip)**](../../releases/download/latest/sources.zip) |
-| **🪵 Journaux d'Exécution** | Archive de tous les logs de compilation et d'exécution | [**Télécharger les Logs (.zip)**](../../releases/download/latest/logs.zip) |
-
-*Note : Si vous avez forké ce dépôt, vos propres compilations seront disponibles dans l'onglet **Releases** de votre propre dépôt GitHub après l'exécution du pipeline Actions.*
+| PDF | Rapport complet mis en page via Typst | [Télécharger](../../releases/download/latest/rapport.pdf) |
+| HTML interactif | Rapport avec visualisations Observable JS | [Télécharger](../../releases/download/latest/rapport.html) |
+| Markdown | Version de lecture rapide pour GitHub | [Consulter](../../releases/download/latest/README.md) |
+| Sources Python | Scripts extraits de tous les notebooks | [Télécharger (.zip)](../../releases/download/latest/sources.zip) |
+| Logs | Journaux de compilation et d'exécution | [Télécharger (.zip)](../../releases/download/latest/logs.zip) |
 
 ---
 
-## 📂 Structure du Projet
+## Structure du projet
 
-```text
-├── .github/workflows/      # Pipelines d'intégration continue
-├── build/                  # Fichiers de compilation générés (exclus de Git)
-│   ├── src/                # Scripts Python extraits des notebooks
-│   ├── logs/               # Rapports d'exécution de chaque étape
-│   ├── notebooks/          # Fichiers Quarto Markdown intermédiaires
-│   └── report/             # PDF, HTML et Markdown compilés finaux
-├── data/                   # Dossier de stockage des données
-│   ├── raw/                # Données brutes sources
-│   └── processed/          # Données nettoyées après Wrangling
-├── notebooks/              # Travaux pratiques (fichiers .ipynb d'origine)
+```
+├── .github/workflows/      # Pipelines CI (compilation & release automatiques)
+├── data/
+│   ├── raw/                # Données brutes (Automobile.csv)
+│   └── processed/          # Données nettoyées
+├── notebooks/              # Pipeline analytique (fichiers .ipynb)
 │   ├── 01_acquisition.ipynb
 │   ├── 02_wrangling.ipynb
-│   ├── ...
-├── report/                 # Modèles et configurations des rapports
-│   ├── rapport.qmd         # Fichier maître du rapport
-│   └── slides.qmd          # Support de soutenance RevealJS
-└── tools/                  # Utilitaires de compilation et de preprocessing
+│   ├── 03_visualisation.ipynb
+│   ├── 04_eda.ipynb
+│   ├── 05_modelisation.ipynb
+│   ├── 06_evaluation.ipynb
+│   └── 07_communication.ipynb
+├── report/
+│   ├── rapport.qmd         # Rapport maître Quarto
+│   └── slides.qmd          # Slides de soutenance RevealJS
+├── dashboard/
+│   ├── frontend/           # Application React (Vite + Recharts)
+│   └── backend/            # API FastAPI (prédiction ML)
+├── build/                  # Artefacts générés (exclus de Git)
+└── tools/                  # Utilitaires de compilation
 ```
 
 ---
 
-## 🛠️ Exécuter et compiler localement
+## Lancer le dashboard
 
-Toutes les tâches du projet sont orchestrées simplement via le gestionnaire de tâches **Go-Task** (`task`).
-
-### 1. Prérequis
-
-Assurez-vous d'avoir installé :
-- [Python 3.12](https://www.python.org/)
-- [Quarto CLI](https://quarto.org/docs/get-started/)
-- [Go-Task](https://taskfile.dev/installation/)
-
-Installez ensuite les dépendances du projet :
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Commandes de compilation rapides
-
-Depuis la racine du projet, lancez :
-
-* **Compiler l'intégralité du pipeline et des rapports** (génère tout dans `build/`) :
-  ```bash
-  task render
-  ```
-* **Prévisualiser dynamiquement le rapport dans le navigateur** (rechargement automatique lors de la saisie) :
-  ```bash
-  task preview
-  ```
-* **Compiler uniquement le guide d'installation** :
-  ```bash
-  task install-guide
-  ```
-* **Nettoyer tous les fichiers temporaires et compilations locales** :
-  ```bash
-  task clean
-  ```
-
----
-
-## 🚀 Lancer le Dashboard Interactif
-
-Le dashboard complet (React + FastAPI + Quarto) se lance en une seule commande via Docker Compose :
+Le dashboard (React + FastAPI) se lance via Docker Compose :
 
 ```bash
 docker-compose up --build
@@ -102,27 +57,35 @@ docker-compose up --build
 
 | Service | URL | Description |
 | :--- | :--- | :--- |
-| 🌐 **React Dashboard** | [localhost:3000](http://localhost:3000) | Tableau de bord interactif avec filtres, KPIs et graphiques |
-| ⚡ **FastAPI Backend** | [localhost:8000](http://localhost:8000) | API de prédiction ML (Random Forest, 91% R²) |
-| 📄 **Quarto Report** | [localhost:4815](http://localhost:4815) | Rapport analytique interactif avec rechargement automatique |
+| React | [localhost:3000](http://localhost:3000) | Dashboard interactif |
+| FastAPI | [localhost:8000](http://localhost:8000) | API de prédiction ML |
+| Quarto | [localhost:4815](http://localhost:4815) | Rapport avec rechargement automatique |
 
-### Pages du dashboard
+**Pages disponibles :**
 
-- **`/`** — Vue d'ensemble : 4 KPIs dynamiques + 4 graphiques Recharts (évolution MPG, scatter HP/MPG, MPG par origine, distribution cylindres)
-- **`/predict`** — Prédicteur IA : 7 sliders paramétrables → prédiction MPG en temps réel + top 3 variables influentes
-- **`/data`** — Table de données : 398 véhicules, triable par colonne, recherche instantanée
-
-### Captures d'écran
-
-```
-Dashboard /          → KPIs + 4 graphiques filtrés par origine/cylindres/époque
-Prédicteur /predict  → Sliders + résultat MPG + badge catégorie + barres d'importance
-Données /data        → Table paginée avec recherche et tri par colonne
-```
+- `/` — 4 KPIs dynamiques + 4 graphiques (évolution MPG, scatter HP/MPG, MPG par origine, distribution cylindres)
+- `/predict` — 7 sliders paramétrables → prédiction MPG en temps réel + top 3 variables influentes
+- `/data` — Table de 398 véhicules, triable et recherchable
 
 ---
 
-## 👥 Équipe
+## Compilation locale
+
+**Prérequis :** [Python 3.12](https://www.python.org/), [Quarto CLI](https://quarto.org/docs/get-started/), [Go-Task](https://taskfile.dev/installation/)
+
+```bash
+pip install -r requirements.txt
+```
+
+| Commande | Action |
+| :--- | :--- |
+| `task render` | Compile l'intégralité du pipeline et des rapports |
+| `task preview` | Prévisualise le rapport avec rechargement automatique |
+| `task clean` | Supprime les fichiers temporaires et compilations locales |
+
+---
+
+## Équipe
 
 | Nom | Rôle |
 | :--- | :--- |
