@@ -58,8 +58,8 @@ docker-compose up --build
 | Service | URL | Description |
 | :--- | :--- | :--- |
 | React | [localhost:3000](http://localhost:3000) | Dashboard interactif |
-| FastAPI | [localhost:8000](http://localhost:8000) | API de prédiction ML |
-| Quarto | [localhost:4815](http://localhost:4815) | Rapport avec rechargement automatique |
+| FastAPI | [localhost:8000/docs](http://localhost:8000/docs) | API de prédiction ML |
+| Quarto | [localhost:4815/report/rapport.html](http://localhost:4815/report/rapport.html) | Rapport avec rechargement automatique |
 
 **Pages disponibles :**
 
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 
 ## Équipe
 
-| Nom | Rôle |
-| :--- | :--- |
-| **Bassim TABBEB** | Data Science & Développement |
-| **Mathis PENAGOS** | Data Science & Développement |
+| Nom | 
+| :--- |
+| **Bassim TABBEB** |
+| **Mathis PENAGOS** |
